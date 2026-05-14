@@ -14,6 +14,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 
+import math
+
 # import mdp
 import isaaclab_tasks.manager_based.manipulation.reach.mdp as mdp
 from isaaclab.utils import configclass
@@ -51,7 +53,7 @@ class SoArm100ReachEnvCfg(ReachEnvCfg):
         # override command generator body
         # end-effector is along z-direction
         self.commands.ee_pose.body_name = ["gripper"]
-        # self.commands.ee_pose.ranges.pitch = (math.pi, math.pi)
+        self.commands.ee_pose.ranges.pitch = (math.pi, math.pi)
 
 
 @configclass
@@ -80,7 +82,7 @@ class SoArm101ReachEnvCfg(ReachEnvCfg):
         self.rewards.end_effector_position_tracking_precise.params["asset_cfg"].body_names = ["gripper_link"]
         self.rewards.end_effector_orientation_tracking.params["asset_cfg"].body_names = ["gripper_link"]
 
-        self.rewards.end_effector_orientation_tracking.weight = 0.0
+        self.rewards.end_effector_orientation_tracking.weight = -0.05
 
         # override actions
         self.actions.arm_action = mdp.JointPositionActionCfg(
@@ -92,7 +94,7 @@ class SoArm101ReachEnvCfg(ReachEnvCfg):
         # override command generator body
         # end-effector is along z-direction
         self.commands.ee_pose.body_name = ["gripper_link"]
-        # self.commands.ee_pose.ranges.pitch = (math.pi, math.pi)
+        self.commands.ee_pose.ranges.pitch = (math.pi, math.pi)
 
 
 @configclass
