@@ -1,6 +1,6 @@
 # Virtual environments
 .venv
-
+.vscode
 # C++
 **/cmake-build*/
 **/build*/
