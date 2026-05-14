@@ -36,6 +36,7 @@ class SoArm100ReachEnvCfg(ReachEnvCfg):
         # override rewards
         self.rewards.end_effector_position_tracking.params["asset_cfg"].body_names = ["gripper"]
         self.rewards.end_effector_position_tracking_fine_grained.params["asset_cfg"].body_names = ["gripper"]
+        self.rewards.end_effector_position_tracking_precise.params["asset_cfg"].body_names = ["gripper"]
         self.rewards.end_effector_orientation_tracking.params["asset_cfg"].body_names = ["gripper"]
 
         # TODO: reorient command target
@@ -76,6 +77,7 @@ class SoArm101ReachEnvCfg(ReachEnvCfg):
         # override rewards
         self.rewards.end_effector_position_tracking.params["asset_cfg"].body_names = ["gripper_link"]
         self.rewards.end_effector_position_tracking_fine_grained.params["asset_cfg"].body_names = ["gripper_link"]
+        self.rewards.end_effector_position_tracking_precise.params["asset_cfg"].body_names = ["gripper_link"]
         self.rewards.end_effector_orientation_tracking.params["asset_cfg"].body_names = ["gripper_link"]
 
         self.rewards.end_effector_orientation_tracking.weight = 0.0
