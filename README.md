@@ -1,5 +1,6 @@
 # Reinforcement Learning with the SO-ARM100 / SO-ARM101 in Isaac Lab
 
+
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Isaac Sim](https://img.shields.io/badge/IsaacSim-5.1.0-76B900.svg)](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html)
 [![Isaac Lab](https://img.shields.io/badge/IsaacLab-2.3.2.post1-8A2BE2.svg)](https://isaac-sim.github.io/IsaacLab/main/index.html)
