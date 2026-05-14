@@ -95,9 +95,9 @@ class CommandsCfg:
         resampling_time_range=(5.0, 5.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(0.12, 0.28),
-            pos_y=(-0.2, 0.2),
-            pos_z=(0.12, 0.25),
+            pos_x=(0.2, 0.2),
+            pos_y=(0.0, 0.0),
+            pos_z=(0.16, 0.16),
             roll=(0.0, 0.0),
             pitch=(0.0, 0.0),
             yaw=(0.0, 0.0),
@@ -125,7 +125,6 @@ class ObservationsCfg:
         joint_pos = ObsTerm(func=mdp.joint_pos_rel)
         joint_vel = ObsTerm(func=mdp.joint_vel_rel)
         object_position = ObsTerm(func=mdp.object_position_in_robot_root_frame)
-        target_object_position = ObsTerm(func=mdp.generated_commands, params={"command_name": "object_pose"})
         actions = ObsTerm(func=mdp.last_action)
 
         def __post_init__(self):
@@ -146,7 +145,7 @@ class EventCfg:
         func=mdp.reset_root_state_uniform,
         mode="reset",
         params={
-            "pose_range": {"x": (-0.1, 0.1), "y": (-0.2, 0.2), "z": (0.0, 0.0)},
+            "pose_range": {"x": (0.0, 0.0), "y": (0.0, 0.0), "z": (0.0, 0.0)},
             "velocity_range": {},
             "asset_cfg": SceneEntityCfg("object", body_names="Object"),
         },
@@ -157,9 +156,9 @@ class EventCfg:
 class RewardsCfg:
     """Reward terms for the MDP."""
 
-    reaching_object = RewTerm(func=mdp.object_ee_distance, params={"std": 0.08}, weight=1.0)
+    reaching_object = RewTerm(func=mdp.object_ee_distance, params={"std": 0.08}, weight=2.0)
 
-    closing_gripper_near_object = RewTerm(func=mdp.gripper_close_near_object, params={"threshold": 0.045}, weight=2.0)
+    closing_gripper_near_object = RewTerm(func=mdp.gripper_close_near_object, params={"threshold": 0.08}, weight=4.0)
 
     lifting_object = RewTerm(func=mdp.object_is_lifted, params={"minimal_height": 0.04}, weight=15.0)
 
@@ -172,13 +171,13 @@ class RewardsCfg:
     object_goal_tracking = RewTerm(
         func=mdp.object_goal_distance,
         params={"std": 0.3, "minimal_height": 0.04, "command_name": "object_pose"},
-        weight=16.0,
+        weight=6.0,
     )
 
     object_goal_tracking_fine_grained = RewTerm(
         func=mdp.object_goal_distance,
         params={"std": 0.05, "minimal_height": 0.04, "command_name": "object_pose"},
-        weight=5.0,
+        weight=2.0,
     )
 
     # action penalty
