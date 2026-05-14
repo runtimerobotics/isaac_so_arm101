@@ -70,12 +70,11 @@ SO_ARM101_CFG = ArticulationCfg(
         ),
         "gripper": ImplicitActuatorCfg(
             joint_names_expr=["gripper"],
-            effort_limit_sim=2.5,  # Increased from 1.9 to 2.5 for stronger grip
+            effort_limit_sim=10.0,
             velocity_limit_sim=1.5,
-            stiffness=60.0,  # Increased from 25.0 to 60.0 for more reliable closing
-            damping=20.0,  # Increased from 10.0 to 20.0 for stability
+            stiffness=100.0,
+            damping=30.0,
         ),
     },
     soft_joint_pos_limit_factor=0.9,
 )
-

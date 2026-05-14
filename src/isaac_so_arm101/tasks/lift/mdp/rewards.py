@@ -30,6 +30,18 @@ def object_is_lifted(
     return torch.where(object.data.root_pos_w[:, 2] > minimal_height, 1.0, 0.0)
 
 
+def object_lift_height(
+    env: ManagerBasedRLEnv,
+    minimal_height: float,
+    std: float,
+    object_cfg: SceneEntityCfg = SceneEntityCfg("object"),
+) -> torch.Tensor:
+    """Reward lifting progress above the table before the sparse lifted threshold is reached."""
+    object: RigidObject = env.scene[object_cfg.name]
+    lift_height = torch.clamp(object.data.root_pos_w[:, 2] - minimal_height, min=0.0)
+    return 1 - torch.exp(-lift_height / std)
+
+
 def object_ee_distance(
     env: ManagerBasedRLEnv,
     std: float,
@@ -48,6 +60,22 @@ def object_ee_distance(
     object_ee_distance = torch.norm(cube_pos_w - ee_w, dim=1)
 
     return 1 - torch.tanh(object_ee_distance / std)
+
+
+def gripper_close_near_object(
+    env: ManagerBasedRLEnv,
+    threshold: float,
+    object_cfg: SceneEntityCfg = SceneEntityCfg("object"),
+    ee_frame_cfg: SceneEntityCfg = SceneEntityCfg("ee_frame"),
+) -> torch.Tensor:
+    """Reward closing the gripper only when the end-effector is close to the object."""
+    object: RigidObject = env.scene[object_cfg.name]
+    ee_frame: FrameTransformer = env.scene[ee_frame_cfg.name]
+    distance = torch.norm(object.data.root_pos_w - ee_frame.data.target_pos_w[..., 0, :], dim=1)
+    is_near = distance < threshold
+    gripper_action = env.action_manager.get_term("gripper_action").raw_actions[:, 0]
+    is_closing = gripper_action < 0.0
+    return torch.where(is_near & is_closing, 1.0, 0.0)
 
 
 def object_goal_distance(
