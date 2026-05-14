@@ -13,9 +13,6 @@
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
-
-import math
-
 # import mdp
 import isaaclab_tasks.manager_based.manipulation.reach.mdp as mdp
 from isaaclab.utils import configclass
@@ -51,9 +48,11 @@ class SoArm100ReachEnvCfg(ReachEnvCfg):
             use_default_offset=True,
         )
         # override command generator body
-        # end-effector is along z-direction
+        # Track the gripper body frame used by the reward/command visualizer.
         self.commands.ee_pose.body_name = ["gripper"]
-        self.commands.ee_pose.ranges.pitch = (math.pi, math.pi)
+        self.commands.ee_pose.ranges.roll = (1.35, 1.35)
+        self.commands.ee_pose.ranges.pitch = (0.0, 0.0)
+        self.commands.ee_pose.ranges.yaw = (0.0, 0.0)
 
 
 @configclass
@@ -87,14 +86,16 @@ class SoArm101ReachEnvCfg(ReachEnvCfg):
         # override actions
         self.actions.arm_action = mdp.JointPositionActionCfg(
             asset_name="robot",
-            joint_names=[".*"],
+            joint_names=["shoulder_.*", "elbow_flex", "wrist_.*"],
             scale=0.5,
             use_default_offset=True,
         )
         # override command generator body
-        # end-effector is along z-direction
+        # Track the gripper body frame used by the reward/command visualizer.
         self.commands.ee_pose.body_name = ["gripper_link"]
-        self.commands.ee_pose.ranges.pitch = (math.pi, math.pi)
+        self.commands.ee_pose.ranges.roll = (0.0, 0.0)
+        self.commands.ee_pose.ranges.pitch = (0.0, 0.0)
+        self.commands.ee_pose.ranges.yaw = (-0.05, -0.05)
 
 
 @configclass
