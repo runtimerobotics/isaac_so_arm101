@@ -46,7 +46,7 @@ class SoArm100LiftCubeEnvCfg(LiftEnvCfg):
             asset_name="robot",
             joint_names=["gripper"],
             open_command_expr={"gripper": 0.5},
-            close_command_expr={"gripper": -0.07},
+            close_command_expr={"gripper": 0.0},
         )
         # Set the body name for the end effector
         self.commands.object_pose.body_name = ["gripper"]
@@ -121,7 +121,7 @@ class SoArm101LiftCubeEnvCfg(LiftEnvCfg):
             asset_name="robot",
             joint_names=["gripper"],
             open_command_expr={"gripper": 0.5},
-            close_command_expr={"gripper": -0.07},
+            close_command_expr={"gripper": 0.0},
         )
         # Set the body name for the end effector
         self.commands.object_pose.body_name = ["gripper_link"]
